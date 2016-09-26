@@ -1,0 +1,33 @@
+---
+rootDir: /vagrant
+appDir: /vagrant/src
+
+vagrant:
+  machine_name: az-laravel-starter-kit
+  ram: 1024
+  ip: 192.168.123.123
+  username: vagrant
+  password: vagrant
+
+mail:
+  host: smtp.yandex.ru
+  username: sample@yandex.ru
+  password: sample
+  port: 465
+  encryption: ssl
+
+xdebug:
+  remouteEnable: On
+  remoteHost: 192.168.123.1
+  remotePort: 9000
+  ideKey: PHPSTORM
+
+postgres:
+    root_password: '123'
+    database: sample
+    user: sample
+    password: sample
+
+nginx:
+    docroot: /vagrant/src/public
+    servername: sample.locale

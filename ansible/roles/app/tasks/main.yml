@@ -1,0 +1,31 @@
+---
+- name: Setup .env
+  template:
+    src: .env.tpl
+    dest: /tmp/.env
+
+- name: Move .env to project
+  sudo: yes
+  command: mv /tmp/.env {{ appDir }}/
+
+- name: Composer install
+  sudo: yes
+  composer: command=install no_dev=no working_dir={{ appDir }}
+
+- name: Migrate
+  shell: php {{ appDir }}/artisan migrate -q
+
+- name: Swagger
+  shell: php {{ appDir }}/artisan l5-swagger:generate
+  ignore_errors: yes
+
+- name: Cors publish
+  shell: php {{ appDir }}/artisan vendor:publish --provider="Barryvdh\Cors\ServiceProvider"
+
+- name: Reboot nginx
+  sudo: yes
+  service: name=nginx enabled=yes state=restarted
+
+- name: Reboot php
+  sudo: yes
+  service: name=php7.0-fpm enabled=yes state=restarted

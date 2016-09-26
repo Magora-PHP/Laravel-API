@@ -1,0 +1,10 @@
+---
+- name: DEPLOY | UPLOAD | Rsync files
+  synchronize:
+    src: "{{ deploy.from }}"
+    dest: "{{ deploy.to }}/releases/{{ release_version }}"
+    recursive: yes
+    delete: yes
+    archive: yes
+    compress: yes
+    set_remote_user: yes

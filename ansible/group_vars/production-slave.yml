@@ -1,0 +1,49 @@
+---
+rootDir: /var/www/az-laravel-starter-kit
+appDir: /var/www/az-laravel-starter-kit/src
+
+mail:
+  host: smtp.office365.com
+  username: sample
+  password: sample
+  port: 587
+  encryption: tls
+
+postgres:
+  hostname: sample.rds.amazonaws.com
+  root_password: 'sample'
+  database: sample
+  user: sample
+  password: 'sample'
+
+nginx:
+    docroot: /var/www/az-laravel-starter-kit/src/public
+    servername: sample.com
+
+deploy:
+  to: /var/www/az-laravel-starter-kit
+  from: ../../../../src/
+#  keep_releases: 3
+  current_release_path: /var/www/az-laravel-starter-kit/src
+  persistent_dirs: []
+
+uploadCode:
+  - { from: '../../../../src', to: '/tmp' }
+
+contentDirs:
+  - { src: 'uploads', dest: 'src/public/uploads' }
+
+rabbitmq:
+    version: 3.6.1-1
+    user: sample
+    password: 'sample'
+    host: sample.com
+
+jwtSecret: G9KRIwYBPVmjUcSJrIaBTf2XAThTLPPG
+
+aws:
+    AWSAccessKeyId: sample
+    AWSSecretKey: sample
+    region: eu-west-1
+    version: 2006-03-01
+    bucket: sample

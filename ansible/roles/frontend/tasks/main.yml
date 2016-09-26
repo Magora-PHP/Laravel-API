@@ -1,0 +1,36 @@
+---
+- name: Install git
+  apt: pkg=git state=latest
+
+- name: Check if NPM is installed
+  shell:  command -v npm > /dev/null 2>&1 || echo 'not install'
+  register: npm_not_install
+
+- name: Add nodejs PPA
+  shell: curl -sL https://deb.nodesource.com/setup_5.x | bash -
+  when: npm_not_install.stdout.find('not install') != -1
+
+- name: Install node
+  apt: pkg=nodejs state=latest
+
+- name: Install gulp
+  npm: name=gulp global=yes
+
+- name: Install local gulp
+  npm: name=gulp path='{{ rootDir }}/frontend'
+
+- name: Install bower
+  npm: name=bower global=yes
+
+- name: npm install
+  npm: path='{{ rootDir }}/frontend'
+
+- name: Bower install
+  command: bower install  --allow-root
+  args:
+    chdir: '{{ rootDir }}/frontend'
+
+- name: Gulp build
+  command: gulp build
+  args:
+    chdir: '{{ rootDir }}/frontend'

@@ -1,0 +1,35 @@
+---
+rootDir: /var/www/az-laravel-starter-kit
+appDir: /var/www/az-laravel-starter-kit/src
+
+mail:
+  host: smtp.office365.com
+  username: sample
+  password: sample
+  port: 587
+  encryption: tls
+
+postgres:
+    root_password: 'sample'
+    database: sample
+    user: sample
+    password: 'sample'
+
+nginx:
+    docroot: /var/www/az-laravel-starter-kit/src/public
+    servername: sample.locale
+
+httpAuth:
+  login: 1
+  password: 12VO00TZep0M. # decoded value = "1"
+  filePath: '/etc/nginx/staging_auth'
+
+deploy:
+  to: /var/www/az-laravel-starter-kit
+  from: ../../../../src/
+#  keep_releases: 3
+  current_release_path: /var/www/az-laravel-starter-kit/src
+  persistent_dirs: []
+
+contentDirs:
+  - { src: 'uploads', dest: 'src/public/uploads' }

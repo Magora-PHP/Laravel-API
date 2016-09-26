@@ -1,0 +1,6 @@
+---
+- name: DEPLOY | SWITCH | Change softlink to new release
+  file: 
+    state: link
+    path: "{{ deploy.current_release_path | default(deploy.to + '/current') }}"
+    src: "{{ deploy.to }}/releases/{{ release_version }}"

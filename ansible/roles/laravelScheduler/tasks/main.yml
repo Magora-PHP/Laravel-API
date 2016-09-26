@@ -1,0 +1,5 @@
+- name: Setup cron
+  cron:
+    name: 'laravel scheduler'
+    user: "www-data"
+    job: "php {{ appDir }}/artisan schedule:run"

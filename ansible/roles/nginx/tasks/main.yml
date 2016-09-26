@@ -1,0 +1,21 @@
+---
+- name: Install Nginx
+  sudo: yes
+  apt: pkg=nginx state=latest
+
+- name: Change default nginx site
+  sudo: yes
+  template: src=default.tpl dest=/etc/nginx/sites-available/default
+
+- name: Prepare certificate directory
+  sudo: yes
+  file:
+    path: "{{ certificateDir }}"
+    state: directory
+
+- name: Configure http auth
+  sudo: yes
+  copy:
+    content: '{{ httpAuth.login }}:{{ httpAuth.password }}'
+    dest: '{{ httpAuth.filePath }}'
+  when: "'staging' in group_names"

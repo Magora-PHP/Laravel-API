@@ -1,0 +1,43 @@
+---
+- name: Add ppa Repository
+  sudo: yes
+  apt_repository: repo=ppa:{{ php.ppa }}
+
+- name: Install PHP Packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest
+  with_items: php.packages
+  when: php.packages is defined
+
+- name: install composer
+  sudo: yes
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+  args:
+    creates: /usr/local/bin/composer
+
+- name: Add composer directory
+  file:
+    path: ~/.composer
+    state: directory
+
+- name: Add GitHub OAuth token for Composer (if configured).
+  template:
+    src: "auth.json.tpl"
+    dest: "~/.composer/auth.json"
+  when: php.composergithuboauthtoken != ''
+
+- name: Install XDebug
+  sudo: yes
+  apt: pkg=php-xdebug state=latest
+  when: xdebug is defined
+
+- name: Configurate xdebug
+  sudo: yes
+  template:
+    src: "xdebug.ini.tpl"
+    dest: "/etc/php/7.0/mods-available/xdebug.ini"
+  when: xdebug is defined
+  notify: restart php7.0-fpm
+
+- include: configure.yml
+- include: pecl.yml

@@ -1,0 +1,12 @@
+---
+- name: DEPLOY | PERSISTENT | Clinup persistent files in uplode
+  file: state=absent path={{ deploy.to }}/releases/{{ release_version }}/{{ item }}
+  with_items: "{{ deploy.persistent_dirs }}"
+
+- name: DEPLOY | PERSISTENT | Create softlinks for persistent dirs
+  file:
+    state: link
+    path: "{{ deploy.to }}/releases/{{ release_version }}/{{ item }}"
+    src: "{{ deploy.to }}/persistent/{{ item }}"
+    force: yes
+  with_items: "{{ deploy.persistent_dirs }}"

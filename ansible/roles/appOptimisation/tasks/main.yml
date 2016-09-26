@@ -1,0 +1,9 @@
+---
+- name: optimize
+  shell: php {{ appDir }}/artisan optimize
+
+- name: route:cache
+  shell: php {{ appDir }}/artisan route:cache
+
+- name: config:cache
+  shell: php {{ appDir }}/artisan config:cache

@@ -1,0 +1,30 @@
+---
+server:
+    timezone: UTC
+    locale: en_US.UTF-8
+    packages:
+      - git
+      - htop
+      - mc
+      - exim4
+      - optipng
+      - jpegoptim
+      - supervisor
+
+php:
+    ppa: 'ondrej/php'
+    packages: [php7.0, php7.0-cli, php7.0-fpm, php7.0-gd, php7.0-mbstring, php7.0-dom, php7.0-json, php7.0-mysql, php7.0-intl, php7.0-mcrypt, php7.0-curl, php7.0-bcmath, php7.0-pgsql]
+    composergithuboauthtoken: 'asdf'
+
+certificateDir: /etc/nginx/ssl
+
+codeOwner: www-data
+
+rabbitmq:
+    version: 3.6.1-1
+    user: mqadmin
+    password: mqadmin
+    host: localhost
+
+api:
+    version: 0.0.0

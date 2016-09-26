@@ -1,0 +1,165 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "az-laravel-starter-kit api docs",
+        "description": "code '0' means successful operation, like code:'success'",
+        "version": "0.0.0"
+    },
+    "basePath": "/api/v1/",
+    "paths": {
+        "profiles": {
+            "get": {
+                "tags": [
+                    "profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiUserList"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "profile"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "user email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "user password",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "description": "user name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ApiUserStore"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ApiError": {
+            "required": [
+                "code",
+                "message",
+                "errors"
+            ],
+            "properties": {
+                "errorCode": {
+                    "title": "code",
+                    "description": "Error code",
+                    "type": "string"
+                },
+                "moduleCode": {
+                    "title": "code",
+                    "description": "Module code",
+                    "type": "string"
+                },
+                "message": {
+                    "title": "code",
+                    "description": "Business error message",
+                    "type": "string"
+                },
+                "errors": {
+                    "type": "object"
+                }
+            },
+            "type": "json",
+            "example": [
+                "uahaha"
+            ]
+        },
+        "ApiUserList": {
+            "required": [
+                "code",
+                "data"
+            ],
+            "properties": {
+                "code": {
+                    "title": "code",
+                    "description": "Business code",
+                    "type": "string"
+                },
+                "data": {
+                    "description": "Response data",
+                    "type": "object"
+                }
+            },
+            "type": "json",
+            "example": {
+                "code": 0,
+                "data": {
+                    "users": [
+                        {
+                            "id": 2,
+                            "name": "uahaha",
+                            "email": "bla@bla.bla"
+                        }
+                    ]
+                }
+            }
+        },
+        "ApiUserStore": {
+            "required": [
+                "code",
+                "data"
+            ],
+            "properties": {
+                "code": {
+                    "title": "code",
+                    "description": "Business code",
+                    "type": "string"
+                },
+                "data": {
+                    "description": "Response data",
+                    "type": "object"
+                }
+            },
+            "type": "json",
+            "example": {
+                "code": 0,
+                "data": {
+                    "user": {
+                        "id": 2,
+                        "email": "qqq@qqq.qqq2",
+                        "name": "qqq@qqq.qqq2"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "profile",
+            "description": "module code xxx"
+        }
+    ]
+}

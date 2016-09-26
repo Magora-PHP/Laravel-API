@@ -1,0 +1,24 @@
+---
+- name: Creates uploads directory
+  file: path={{ rootDir }}/uploads state=directory owner=www-data group=www-data mode=0775
+
+- name: Rm src/public/uploads directory
+  file: path={{ appDir }}/public/uploads state=absent
+
+- name: uploads symlink
+  file: path={{ appDir }}/public/uploads
+        src={{ rootDir }}/uploads
+        state=link
+        force=yes
+
+- name: Change owner to www-data
+  sudo: yes
+  command: chown -R www-data {{ rootDir }}
+
+- name: Change group to www-data
+  sudo: yes
+  command: chgrp -R www-data {{ rootDir }}
+
+- name: Change croup to www-data
+  sudo: yes
+  command: chmod -R 755 {{ appDir }}/storage

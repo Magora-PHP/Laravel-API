@@ -1,0 +1,62 @@
+---
+- hosts: local
+  connection: local
+  gather_facts : no
+  roles:
+    - frontend
+
+- hosts: vagrant
+  roles:
+    - server
+    - nginx
+    - postgres
+#    - rabbitmq
+    - php
+    - app
+    - laravelScheduler
+    - localVagrant
+#    - supervisor
+
+- hosts: staging
+  roles:
+    - server
+    - nginx
+    - postgres
+    - php
+    - deploy
+#    - rabbitmq
+    - app
+    - laravelScheduler
+    - uploads
+#    - supervisor
+
+- hosts: production
+  become: true
+  become_user: root
+  roles:
+    - server
+    - nginx
+#    - postgres
+    - php
+    - deploy
+#    - rabbitmq
+    - app
+    - laravelScheduler
+    - appOptimisation
+    - uploads
+#    - supervisor
+
+- hosts: production-slave
+  become: true
+  become_user: root
+  roles:
+    - server
+    - nginx
+#    - postgres
+    - php
+    - deploy
+    - app
+    - appOptimisation
+#    - rabbitmq
+    - uploads
+#    - supervisor

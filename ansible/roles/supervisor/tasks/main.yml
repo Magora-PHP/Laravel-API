@@ -1,0 +1,23 @@
+---
+- name: ensure python-software-properties is installed
+  apt: pkg=python-software-properties state=installed
+
+- name: Add worker push
+  template:
+    src: "push-worker.conf.tpl"
+    dest: "/etc/supervisor/conf.d/push-worker.conf"
+
+- name: Add worker mail
+  template:
+    src: "mail-worker.conf.tpl"
+    dest: "/etc/supervisor/conf.d/mail-worker.conf"
+
+- name: restart supervisor
+  sudo: yes
+  command: service supervisor restart
+
+- name: start push-worker
+  supervisorctl: name=push-worker state=started
+
+- name: start mail-worker
+  supervisorctl: name=mail-worker state=started

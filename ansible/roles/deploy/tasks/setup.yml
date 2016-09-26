@@ -1,0 +1,21 @@
+---
+- name: DEPLOY | SETUP | release version
+  set_fact:
+    release_version: "{{ lookup('pipe', 'date -u +%Y%m%d%H%M%SZ') }}"
+  run_once: true
+  when: release_version is not defined
+  delegate_to: 127.0.0.1
+
+- name: DEPLOY | SETUP | deploy base path
+  become_user: root
+  file: state=directory path={{ deploy.to }}
+
+- name: DEPLOY | SETUP | release base path
+  file: state=directory path={{ deploy.to }}/releases
+
+- name: DEPLOY | SETUP | persistent dir
+  file: state=directory path={{ deploy.to }}/persistent
+
+- name: DEPLOY | SETUP | persistent subdir
+  file: state=directory path={{ deploy.to }}/persistent/{{ item }}
+  with_items: "{{ deploy.persistent_dirs }}"

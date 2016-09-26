@@ -1,0 +1,40 @@
+require 'yaml'
+
+dir = File.dirname(File.expand_path(__FILE__))
+
+configValues = YAML.load_file("#{dir}/../ansible/group_vars/vagrant.yml")
+
+Vagrant.require_version ">= 1.5"
+
+Vagrant.configure("2") do |config|
+
+    config.vm.provider :virtualbox do |v|
+        v.name = "#{configValues['vagrant']['machine_name']}"
+        v.memory = "#{configValues['vagrant']['ram']}"
+        v.cpus = 1
+        v.customize [
+            "modifyvm", :id,
+            "--natdnshostresolver1", "on",
+        ]
+    end
+
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.provision :shell, path: "provision.sh", args: ["default"]
+    config.vm.network :private_network, ip: "#{configValues['vagrant']['ip']}"
+
+    if Vagrant::Util::Platform.windows?
+        config.vm.provider "virtualbox" do |v|
+            v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+        end
+        config.vm.synced_folder "../", "/vagrant", mount_options: ["dmode=777", "fmode=666"]
+    else
+        config.vm.synced_folder "../", "/vagrant", type: "nfs",  mount_options: ["nolock"]
+    end
+
+
+    config.ssh.forward_agent = true
+    config.ssh.insert_key = true
+    config.ssh.username = "#{configValues['vagrant']['username']}"
+    config.ssh.password = "#{configValues['vagrant']['password']}"
+
+end

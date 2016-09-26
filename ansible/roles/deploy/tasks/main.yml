@@ -1,0 +1,6 @@
+---
+- include: setup.yml
+- include: upload-code.yml
+- include: persistent.yml
+- include: switch-release.yml
+- include: cleanup.yml
